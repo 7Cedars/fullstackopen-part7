@@ -23,10 +23,11 @@ const CreateNew = ( props ) => {
     navigate("/")
   }
 
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form >
         <div>
           content <input {...contentField} />
         </div>
@@ -35,9 +36,15 @@ const CreateNew = ( props ) => {
         </div>
         <div>
           info <input {...infoField} />
-        </div>
-        <button>create</button>
+        </div>   
       </form>
+      <button onClick={handleSubmit} >create</button>
+      <button onClick={ () => (
+        contentField.doReset(),
+        authorField.doReset(),
+        infoField.doReset()
+        )  
+      } >reset</button> 
     </div>
   )
 }
