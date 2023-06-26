@@ -44,6 +44,7 @@ const App = () => {
     anecdotes.find(a => a.id === id)
 
   const addNew = (anecdote) => {
+    console.log ("new anecdote: ", anecdote) 
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
     setNotification(anecdote.content) 
