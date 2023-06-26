@@ -4,6 +4,7 @@ import { useState } from 'react'
 import About from './components/About'
 import CreateNew from './components/CreateNew'
 import AnecdoteList from './components/AnecdoteList'
+import Anecdote from './components/Anecdote'
 import Footer from './components/Footer'
 
 import {
@@ -11,6 +12,7 @@ import {
   Routes,
   Route,
   Link,
+  useMatch
   // Navigate,
   // useParams,
   // useNavigate,
@@ -34,13 +36,18 @@ const App = () => {
     }
   ])
 
+  const match = useMatch('/anecdotes/:id')
+  const anecdote = match 
+    ? anecdotes.find(anecdote => anecdote.id === Number(match.params.id))
+    : null
+  
+    
   const Menu = () => {
     const padding = {
       paddingRight: 5
     }
     return (
       <div>
-        <Router>
           <div>
             <Link style={padding} to="/">home</Link>
             <Link style={padding} to="/anecdotes">anecdotes</Link>
@@ -53,11 +60,11 @@ const App = () => {
           </div>
           <Routes>
             <Route path="/anecdotes" element={<AnecdoteList anecdotes={ anecdotes } />} />
+            <Route path="/anecdotes/:id" element={<Anecdote anecdote={anecdote} />} />
             <Route path="/create" element={<CreateNew/>} />
             <Route path="/about" element={<About /> } />
             <Route path="/" element={<AnecdoteList anecdotes={ anecdotes }/>} />
           </Routes>
-        </Router>
       </div>
     )
   }
@@ -71,7 +78,7 @@ const App = () => {
 
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
-
+  
   const vote = (id) => {
     const anecdote = anecdoteById(id)
 
