@@ -5,16 +5,16 @@ import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import { setNotification } from './reducers/NotificationReducer'
+import { useDispatch } from 'react-redux'
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  // const [newBlog, setNewBlog] = useState({title: '', author: '', url: ''})
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const blogFormRef = useRef();
+  const dispatch = useDispatch()
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -31,10 +31,7 @@ const App = () => {
       setPassword("");
       console.log("User: ", user);
     } catch (exception) {
-      setErrorMessage("Wrong username or password");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        dispatch(setNotification({message: 'Wrong username or password', className: "error"}));
     }
     console.log("user: ", user);
   };
@@ -74,45 +71,34 @@ const App = () => {
       .then((returnedBlog) => {
         setBlogs(blogs.concat(returnedBlog));
         console.log("returnedBlog: ", returnedBlog.user);
-        setSuccessMessage(
-          `Success! Blog '${blogObject.title}' by '${blogObject.author}' was saved.`
-        );
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 5000);
+
+        dispatch(setNotification({
+          message: `Success! Blog '${blogObject.title}' by '${blogObject.author}' was saved.`,
+          className: 'success'
+        }
+          )) 
       })
       .catch((error) => {
-        setErrorMessage(
-          `Blog '${blogObject.title}' was not saved. Error message: ${error}`
-        );
-        setTimeout(() => {
-          setErrorMessage(null);
-        }, 5000);
+        dispatch(setNotification({
+          message: `Blog '${blogObject.title}' was not saved. Error message: ${error}`, 
+          className: 'error'
+        })); 
       });
   };
 
   const updateLikes = (id, newLikes) => {
-    // console.log('id:', id)
-    // console.log('blogs:', blogs)
-    // let index = blogs.findIndex(blog => blog.id === id)
     const blog = blogs.find((b) => b.id === id);
     const changedBlog = { ...blog, likes: newLikes };
-
-    // console.log('index: ', index)
-    // console.log('changedBlog: ', changedBlog)
-
     blogService
       .update(id, changedBlog)
       .then((returnedBlog) => {
         setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnedBlog)));
       })
       .catch((error) => {
-        setErrorMessage(
-          `Additional like was not saved. Full error message: ${error}`
-        );
-        setTimeout(() => {
-          setErrorMessage(null);
-        }, 5000);
+        dispatch(setNotification({
+          message: `Additional like was not saved. You are not logged in.`, 
+          className: 'error'
+        })); 
       });
   };
 
@@ -167,8 +153,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification.Success message={successMessage} />
-      <Notification.Error message={errorMessage} />
+      <Notification />
       {user ? userInfo() : loginForm()}
       {user && (
         <div>

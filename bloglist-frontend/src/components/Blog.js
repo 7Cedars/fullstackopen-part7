@@ -50,7 +50,7 @@ const Blog = ({ blog, updateLikes, removeBlogs, user }) => {
             {" "}
             {`Created by: '${blog.user.name}' `}{" "}
           </div>
-          {user.username === blog.user.username ? (
+          {user && user.username === blog.user.username ? (
             <div className="blogRemoveButton">
               {" "}
               <button onClick={removeBlog}> Remove </button>{" "}
