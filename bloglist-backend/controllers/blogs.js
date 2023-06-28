@@ -1,73 +1,93 @@
-const blogsRouter = require('express').Router()
-const Blog = require('../models/blog')
-const { tokenExtractor, userExtractor } = require('../utils/middleware')
+const blogsRouter = require("express").Router();
+const Blog = require("../models/blog");
+const { tokenExtractor, userExtractor } = require("../utils/middleware");
 
-blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({})
-  .populate('user', { 
-    username: 1, 
-    name: 1 }) 
-  response.json(blogs)    
-})
+blogsRouter.get("/", async (request, response) => {
+  const blogs = await Blog.find({}).populate("user", {
+    username: 1,
+    name: 1,
+  });
+  response.json(blogs);
+});
 
-blogsRouter.get('/:id', async (request, response) => {
-  const blog = await Blog.findById(request.params.id)
-  
-  if (!blog) {response.status(404).end()}
+blogsRouter.get("/:id", async (request, response) => {
+  const blog = await Blog.findById(request.params.id);
 
-  response.json(blog)    
-})
+  if (!blog) {
+    response.status(404).end();
+  }
 
-blogsRouter.post('/', tokenExtractor, userExtractor, async (request, response) => {
-  const blog = new Blog(request.body)
-  
-  blog.likes ? blog.likes = blog.likes : blog.likes = 0
-  
-  blog.user = request.user
-  const savedBlog = await blog.save()
+  response.json(blog);
+});
 
-  request.user.blogs = request.user.blogs.concat(savedBlog.id)
-  await request.user.save()
+blogsRouter.post(
+  "/",
+  tokenExtractor,
+  userExtractor,
+  async (request, response) => {
+    const blog = new Blog(request.body);
 
-  response.status(201).json(savedBlog) 
-  
-})
+    blog.likes ? (blog.likes = blog.likes) : (blog.likes = 0);
 
-blogsRouter.delete('/:id', tokenExtractor, userExtractor, async (request, response) => {
-  
-  const blog = await Blog.findById(request.params.id)
-  const userid = request.user.id
+    blog.user = request.user;
+    const savedBlog = await blog.save();
 
-   // if ( blog.user.toString() === userid.toString() ){ // Witht his ONLY creator of blogs can delete blogs. 
-      await Blog.findByIdAndRemove(request.params.id)
-      response.status(204).json(request.params.id)
-   // }
+    request.user.blogs = request.user.blogs.concat(savedBlog.id);
+    await request.user.save();
 
-})
+    response.status(201).json(savedBlog);
+  }
+);
 
-// ok, so this is not the most efficient way.. but it works! 
-blogsRouter.put('/:id', tokenExtractor, userExtractor, async (request, response) => {
-  const update = request.body
-  const originalBlog = await Blog.findById(request.params.id)
-    .populate('user', { 
-      username: 1, 
-      name: 1 })
+blogsRouter.delete(
+  "/:id",
+  tokenExtractor,
+  userExtractor,
+  async (request, response) => {
+    const blog = await Blog.findById(request.params.id);
+    const userid = request.user.id;
 
-  let updatedBlog = originalBlog
+    // if ( blog.user.toString() === userid.toString() ){ // Witht his ONLY creator of blogs can delete blogs.
+    await Blog.findByIdAndRemove(request.params.id);
+    response.status(204).json(request.params.id);
+    // }
+  }
+);
 
-  if (!(originalBlog)) {response.status(404).end()}
+// ok, so this is not the most efficient way.. but it works!
+blogsRouter.put(
+  "/:id",
+  tokenExtractor,
+  userExtractor,
+  async (request, response) => {
+    const update = request.body;
+    const originalBlog = await Blog.findById(request.params.id).populate(
+      "user",
+      {
+        username: 1,
+        name: 1,
+      }
+    );
 
-  update.title ? updatedBlog.title = update.title : null
-  update.author ? updatedBlog.author = update.author : null
-  update.url ? updatedBlog.url = update.url : null
-  update.likes ? updatedBlog.likes = update.likes : null
+    let updatedBlog = originalBlog;
 
-  savedBlog = await Blog.findByIdAndUpdate(request.params.id, updatedBlog, { new: true })
-  
-  // Blog.findById(request.params.id)
-  // response.status(204).json(originalBlog)
-  response.json(originalBlog)    
+    if (!originalBlog) {
+      response.status(404).end();
+    }
 
-})
+    update.title ? (updatedBlog.title = update.title) : null;
+    update.author ? (updatedBlog.author = update.author) : null;
+    update.url ? (updatedBlog.url = update.url) : null;
+    update.likes ? (updatedBlog.likes = update.likes) : null;
 
-module.exports = blogsRouter
+    savedBlog = await Blog.findByIdAndUpdate(request.params.id, updatedBlog, {
+      new: true,
+    });
+
+    // Blog.findById(request.params.id)
+    // response.status(204).json(originalBlog)
+    response.json(originalBlog);
+  }
+);
+
+module.exports = blogsRouter;
