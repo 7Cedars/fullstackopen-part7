@@ -18,15 +18,11 @@ export const useField = (type) => {
 export const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
-  const create = async (resource) => {
-      const response = await axios.post(baseUrl, resource)
-      let resourcesTemp =  resources
-      resourcesTemp.push(response.data)
-      setResources(resourcesTemp)
-
-      console.log("resources: ", resources)
+  const create = async (event) => {
+    const response = await axios.post(baseUrl, event)
+    resources.push(response.data)
     }
-
+    
   useEffect(() => {
     console.log("useEffect CALLED on initialisation")
     const getAll = async () => {
@@ -37,7 +33,7 @@ export const useResource = (baseUrl) => {
   }, [baseUrl])
 
   const service = {
-    create 
+    create
   }
 
   return [
