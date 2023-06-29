@@ -1,20 +1,24 @@
 import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
+import BlogList from "./components/BlogList";
 import Notification from "./components/Notification";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
-import { setNotification } from './reducers/NotificationReducer'
+import { initialiseBlogs, createBlog, removeBlog, updateLikes } from './reducers/blogsReducer'
+import { setNotification } from './reducers/notificationReducer'
 import { useDispatch } from 'react-redux'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   const blogFormRef = useRef();
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initialiseBlogs())  
+  }, [dispatch]) 
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -42,14 +46,6 @@ const App = () => {
     window.location.reload(false);
   };
 
-  const compareLikes = (a, b) => {
-    return b.likes - (a.likes + 1);
-  };
-
-  useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs.sort(compareLikes)));
-  }, []);
-
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
     if (loggedUserJSON) {
@@ -59,59 +55,58 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    setBlogs(blogs.sort(compareLikes));
-  }, [blogs]);
+  // to delete - WIP
+  // const addBlog = (blogObject) => {
+  //   blogFormRef.current.toggleVisibility();
+  //   console.log("blogObject: ", blogObject);
+  //   blogService
+  //     .create(blogObject)
+  //     .then((returnedBlog) => {
+  //       setBlogs(blogs.concat(returnedBlog));
+  //       console.log("returnedBlog: ", returnedBlog.user);
 
-  const addBlog = (blogObject) => {
-    blogFormRef.current.toggleVisibility();
-    console.log("blogObject: ", blogObject);
-    blogService
-      .create(blogObject)
-      .then((returnedBlog) => {
-        setBlogs(blogs.concat(returnedBlog));
-        console.log("returnedBlog: ", returnedBlog.user);
+  //       dispatch(setNotification({
+  //         message: `Success! Blog '${blogObject.title}' by '${blogObject.author}' was saved.`,
+  //         className: 'success'
+  //       }
+  //         )) 
+  //     })
+  //     .catch((error) => {
+  //       dispatch(setNotification({
+  //         message: `Blog '${blogObject.title}' was not saved. Error message: ${error}`, 
+  //         className: 'error'
+  //       })); 
+  //     });
+  // };
 
-        dispatch(setNotification({
-          message: `Success! Blog '${blogObject.title}' by '${blogObject.author}' was saved.`,
-          className: 'success'
-        }
-          )) 
-      })
-      .catch((error) => {
-        dispatch(setNotification({
-          message: `Blog '${blogObject.title}' was not saved. Error message: ${error}`, 
-          className: 'error'
-        })); 
-      });
-  };
+    // to delete - WIP
+  // const updateLikes = (id, newLikes) => {
+  //   const blog = blogs.find((b) => b.id === id);
+  //   const changedBlog = { ...blog, likes: newLikes };
+  //   blogService
+  //     .update(id, changedBlog)
+  //     .then((returnedBlog) => {
+  //       setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnedBlog)));
+  //     })
+  //     .catch((error) => {
+  //       dispatch(setNotification({
+  //         message: `Additional like was not saved. You are not logged in.`, 
+  //         className: 'error'
+  //       })); 
+  //     });
+  // };
 
-  const updateLikes = (id, newLikes) => {
-    const blog = blogs.find((b) => b.id === id);
-    const changedBlog = { ...blog, likes: newLikes };
-    blogService
-      .update(id, changedBlog)
-      .then((returnedBlog) => {
-        setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnedBlog)));
-      })
-      .catch((error) => {
-        dispatch(setNotification({
-          message: `Additional like was not saved. You are not logged in.`, 
-          className: 'error'
-        })); 
-      });
-  };
+    // to delete - WIP
+  // const removeBlogs = (id) => {
+  //   console.log("id :", id);
+  //   const blog = blogs.find((b) => b.id === id);
 
-  const removeBlogs = (id) => {
-    console.log("id :", id);
-    const blog = blogs.find((b) => b.id === id);
-
-    if (window.confirm(`Do you really want to delete ${blog.title}?`)) {
-      blogService
-        .deleteItem(id)
-        .then(setBlogs(blogs.filter((blog) => blog.id !== id)));
-    }
-  };
+  //   if (window.confirm(`Do you really want to delete ${blog.title}?`)) {
+  //     blogService
+  //       .deleteItem(id)
+  //       .then(setBlogs(blogs.filter((blog) => blog.id !== id)));
+  //   }
+  // };
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -158,21 +153,12 @@ const App = () => {
       {user && (
         <div>
           <Togglable buttonLabel="add new blog" ref={blogFormRef}>
-            <BlogForm createBlog={addBlog} user={user} />
+            <BlogForm user={user} />
           </Togglable>
         </div>
       )}
-
       <h2>Blogs</h2>
-      {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          updateLikes={updateLikes}
-          removeBlogs={removeBlogs}
-          user={user}
-        />
-      ))}
+      <BlogList /> 
     </div>
   );
 };
