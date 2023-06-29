@@ -1,19 +1,34 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogsReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
-const BlogForm = ({ createBlog, user }) => {
+const BlogForm = ({ user }) => {
   const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
+  const dispatch = useDispatch()
 
-  const addBlog2 = (event) => {
+  const addBlog = (event) => {
     event.preventDefault();
-    createBlog({
-      title: newBlog.title,
-      author: newBlog.author,
-      url: newBlog.url,
-      user: user,
-      likes: 0,
-    });
 
+    try {
+      dispatch(createBlog({
+        title: newBlog.title,
+        author: newBlog.author,
+        url: newBlog.url,
+        user: user,
+        likes: 0,
+      }));
+      dispatch(setNotification({
+        message: `Success! Blog '${newBlog.title}' by '${newBlog.author}' was saved.`,
+        className: 'success'
+      }))
+    } catch(error) {
+      dispatch(setNotification({
+        message: `Blog '${newBlog.title}' was not saved. Error message: ${error}`, 
+        className: 'error'
+        }));
+    }
     setNewBlog({ title: "", author: "", url: "" });
   };
 
@@ -30,7 +45,7 @@ const BlogForm = ({ createBlog, user }) => {
     <div>
       <h2>New Blog Entry</h2>
 
-      <form onSubmit={addBlog2}>
+      <form onSubmit={addBlog}>
         <div>
           title:
           <input
