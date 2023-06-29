@@ -21,7 +21,6 @@ export const {
 export default notificationSlice.reducer
 
 export const setNotification = (payload) => {
-  // console.log('updatedAnecdote: ', updatedAnecdote)
   return async dispatch => {
     dispatch(createNotification(payload))
     setTimeout((payload) => { dispatch(removeNotification(payload))}, 5000) 

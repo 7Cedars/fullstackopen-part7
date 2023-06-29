@@ -19,7 +19,6 @@ const BlogList = () => {
     <Blog
       key={blog.id}
       blog={blog}
-      // updateLikes={updateLikes}
       // removeBlogs={removeBlogs}
       // user={user}
     />

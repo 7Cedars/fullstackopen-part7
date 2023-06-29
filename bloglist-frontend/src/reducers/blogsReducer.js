@@ -16,22 +16,26 @@ const blogsSlice = createSlice({
     addBlog(state, action) {
       state.push(action.payload)
     },
-    removeBlog(state, action) {
-      return null
-      // const payload = action.payload
-      // return payload
+    updateBlog(state, action) {      
+      const id = action.payload.id
+      const changedBlogs = state.map(blog =>
+        blog.id !== id ? blog : action.payload
+      )
+      return changedBlogs.sort(compareLikes)
     },
-    updateLikes(state, action) {      
-      return null
-    }
+    removeBlog(state, action) {
+      const id = action.payload
+      const changedBlogs = state.filter((blog) => blog.id !== id)
+      return changedBlogs
+    },
   },
 })
 
 export const { 
   setBlogs, 
   addBlog,
+  updateBlog,
   removeBlog, 
-  updateLikes
 } = blogsSlice.actions
 export default blogsSlice.reducer
 
@@ -49,53 +53,17 @@ export const createBlog = blogObject => {
   }
 }
 
-// const addBlog = (blogObject) => {
-//   blogFormRef.current.toggleVisibility();
-//   console.log("blogObject: ", blogObject);
-//   blogService
-//     .create(blogObject)
-//     .then((returnedBlog) => {
-//       setBlogs(blogs.concat(returnedBlog));
-//       console.log("returnedBlog: ", returnedBlog.user);
+export const likeBlog = likedBlog => {
+  return async dispatch => {    
+    const updatedBlog = await blogService.update(likedBlog)
+    dispatch(updateBlog(updatedBlog));
+  }
+}
 
-//       dispatch(setNotification({
-//         message: `Success! Blog '${blogObject.title}' by '${blogObject.author}' was saved.`,
-//         className: 'success'
-//       }
-//         )) 
-//     })
-//     .catch((error) => {
-//       dispatch(setNotification({
-//         message: `Blog '${blogObject.title}' was not saved. Error message: ${error}`, 
-//         className: 'error'
-//       })); 
-//     });
-// };
-
-// const updateLikes = (id, newLikes) => {
-//   const blog = blogs.find((b) => b.id === id);
-//   const changedBlog = { ...blog, likes: newLikes };
-//   blogService
-//     .update(id, changedBlog)
-//     .then((returnedBlog) => {
-//       setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnedBlog)));
-//     })
-//     .catch((error) => {
-//       dispatch(setNotification({
-//         message: `Additional like was not saved. You are not logged in.`, 
-//         className: 'error'
-//       })); 
-//     });
-// };
-
-// const removeBlogs = (id) => {
-//   console.log("id :", id);
-//   const blog = blogs.find((b) => b.id === id);
-
-//   if (window.confirm(`Do you really want to delete ${blog.title}?`)) {
-//     blogService
-//       .deleteItem(id)
-//       .then(setBlogs(blogs.filter((blog) => blog.id !== id)));
-//   }
-// };
+export const removeBlogs = id => {
+  return async dispatch => {    
+    await blogService.deleteItem(id)
+    dispatch(removeBlog(id));
+  }
+}
 

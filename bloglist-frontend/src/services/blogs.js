@@ -21,12 +21,12 @@ const create = async (blogObject) => {
   return response.data;
 };
 
-const update = async (id, newBlog) => {
+const update = async (updatedBlog) => {
   const config = {
     headers: { Authorization: token },
   };
 
-  const response = await axios.put(`${baseUrl}/${id}`, newBlog, config);
+  const response = await axios.put(`${baseUrl}/${updatedBlog.id}`, updatedBlog, config);
   return response.data;
 };
 

@@ -5,7 +5,7 @@ import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
-import { initialiseBlogs, createBlog, removeBlog, updateLikes } from './reducers/blogsReducer'
+import { initialiseBlogs, removeBlog, updateLikes } from './reducers/blogsReducer'
 import { setNotification } from './reducers/notificationReducer'
 import { useDispatch } from 'react-redux'
 
@@ -56,30 +56,6 @@ const App = () => {
   }, []);
 
   // to delete - WIP
-  // const addBlog = (blogObject) => {
-  //   blogFormRef.current.toggleVisibility();
-  //   console.log("blogObject: ", blogObject);
-  //   blogService
-  //     .create(blogObject)
-  //     .then((returnedBlog) => {
-  //       setBlogs(blogs.concat(returnedBlog));
-  //       console.log("returnedBlog: ", returnedBlog.user);
-
-  //       dispatch(setNotification({
-  //         message: `Success! Blog '${blogObject.title}' by '${blogObject.author}' was saved.`,
-  //         className: 'success'
-  //       }
-  //         )) 
-  //     })
-  //     .catch((error) => {
-  //       dispatch(setNotification({
-  //         message: `Blog '${blogObject.title}' was not saved. Error message: ${error}`, 
-  //         className: 'error'
-  //       })); 
-  //     });
-  // };
-
-    // to delete - WIP
   // const updateLikes = (id, newLikes) => {
   //   const blog = blogs.find((b) => b.id === id);
   //   const changedBlog = { ...blog, likes: newLikes };
