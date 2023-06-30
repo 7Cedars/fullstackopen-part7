@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { likeBlog, removeBlogs } from '../reducers/blogsReducer'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch()
+  
+  const user = useSelector(state => {
+    if (state.users) { 
+      const currentUser = state.users
+      console.log("currentUser: ", currentUser)
+      return currentUser;
+    } else {
+      return null
+    }
+  })
 
   const blogStyle = {
     paddingTop: 10,
@@ -55,12 +65,12 @@ const Blog = ({ blog }) => {
             {" "}
             {`Created by: '${blog.user.name}' `}{" "}
           </div> 
-          {/* {user && user.username === blog.user.username ? ( */}
+          {user && user.username === blog.user.username ? (
             <div className="blogRemoveButton">
               {" "}
               <button onClick={removeBlog}> Remove </button>{" "}
             </div>
-          {/* ) : null} */}
+          ) : null} 
         </div>
       ) : null}
     </div>

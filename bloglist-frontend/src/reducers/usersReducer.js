@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import userService from "../services/users";
 import loginService from "../services/login";
+import blogService from "../services/blogs";
 
 // need helper function here? 
 // const compareLikes = (a, b) => {
@@ -38,6 +39,7 @@ export const loginUser = (username, password) => {
       username,
       password,
     });
+    blogService.setToken(user.token);
     window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
     dispatch(loggedInUser(user))
   }

@@ -16,7 +16,6 @@ import UsersOverview from "./components/UsersOverview";
 import blogService from "./services/blogs";
 import { initialiseBlogs } from './reducers/blogsReducer'
 import { loggedInUser } from "./reducers/usersReducer";
-import { setNotification } from "./reducers/notificationReducer";
 
 const App = () => {
   const blogFormRef = useRef();
@@ -44,7 +43,6 @@ const App = () => {
         return currentUser;
       } else {
         return null
-        // dispatch(setNotification({message: "something Went wrong with login.", className: "error"}))
       }
     })
 
