@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 
 const UserInfo = () => {
 
-  dispatch(fetchAllUsers())
+  // dispatch(fetchAllUsers())
   
   const user = useSelector(state => {
     console.log("FULL Redux state : ", state)
