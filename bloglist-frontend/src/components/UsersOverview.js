@@ -1,38 +1,30 @@
 import { useSelector } from 'react-redux'
 
 const UsersOverview = () => {
-
-
   
-  const blogs = useSelector(state => {
+  const allUsers = useSelector(state => {
 
-    if (state.blogs) { 
-      const currentBlogs = state.blogs
-      return currentBlogs;
+    if (state.users.all) { 
+      const all = state.users.all
+      console.log("FULL Redux state at UsersOverview: ", state)
+      return all;
     } else {
       return [];
     }
   })
-  
-  const names = blogs.map(blog => blog.user.name)
-  const uniqueNames = [...new Set(names)]
-  const countValue = names.reduce(function (count, currentValue) {
-    return (
-        count[currentValue] ? ++count[currentValue] : (count[currentValue] = 1),
-        count
-    );
-    }, {});
-
+      
   return (
     <div>
       <h2>Users</h2>
       <table>
+          <tr> 
             <td> </td>
             <td> <b> # Blogs </b> </td>
-        {uniqueNames.map((name) => (
+          </tr> 
+        {allUsers.map((user) => (
           <tr> 
-            <td> {name} </td>
-            <td> {countValue[name]}</td>
+            <td> {user.name} </td>
+            <td> {user.blogs.length} </td>
           </tr> 
         ))}
       </table>

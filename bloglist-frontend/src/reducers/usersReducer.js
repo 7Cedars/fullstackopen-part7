@@ -56,6 +56,7 @@ export const loginUser = (username, password) => {
 export const fetchAllUsers = () => {
   return async dispatch => {
     const all = await userService.getAll()
+    console.log("fetchAllUsers:" , all)
     dispatch(allUsers(all))
   }
 }

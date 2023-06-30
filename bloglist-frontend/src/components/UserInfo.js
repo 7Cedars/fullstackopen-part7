@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 const UserInfo = () => {
   
   const user = useSelector(state => {
-    console.log("logged in user in Redux state : ", state.users.loggedIn)
+    console.log("FULL Redux state : ", state)
 
     return (
       state.users.loggedIn

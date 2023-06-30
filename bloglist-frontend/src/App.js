@@ -1,10 +1,9 @@
-import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from "react";
+import { useDispatch, useSelector, useMatch } from 'react-redux'
 import {
   BrowserRouter as Router,
   Routes, Route, Link
 } from 'react-router-dom'
-
 
 import Notification from "./components/Notification";
 import BlogList from "./components/BlogList";
@@ -18,14 +17,19 @@ import { initialiseBlogs } from './reducers/blogsReducer'
 import { loggedInUser, fetchAllUsers } from "./reducers/usersReducer";
 
 const App = () => {
-  const blogFormRef = useRef();
   const dispatch = useDispatch()
+  // const match = useMatch('/users/:id')
+  // const selectedUser = match 
+  //   ? users.find(user => user.username === String(match.params.id))
+  //   : null  
+
   useEffect(() => {
-    dispatch(initialiseBlogs())  
+    dispatch(initialiseBlogs())
     
   }, [dispatch]) 
 
   useEffect(() => {
+    dispatch(fetchAllUsers())
     const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
     console.log("loggedUserJSON CALLED:", loggedUserJSON)
     if (loggedUserJSON) {
@@ -34,7 +38,6 @@ const App = () => {
       blogService.setToken(user.token);
       dispatch(loggedInUser(user)) 
     }
-    dispatch(fetchAllUsers())
   }, []);
 
   const user = useSelector(state => {
