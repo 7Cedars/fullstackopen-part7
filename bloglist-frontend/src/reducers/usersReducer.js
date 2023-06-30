@@ -10,7 +10,7 @@ import blogService from "../services/blogs";
 
 const usersAtStart = {
   loggedIn: null, 
-  all: [],
+  all: null,
   selected: null 
 }
 
