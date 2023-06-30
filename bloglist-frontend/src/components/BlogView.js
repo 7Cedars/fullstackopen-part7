@@ -1,6 +1,7 @@
 import { likeBlog, removeBlogs } from '../reducers/blogsReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { useMatch, useNavigate } from 'react-router-dom'
+import { setNotification } from '../reducers/notificationReducer'
 
 const BlogView = () => {
   const dispatch = useDispatch()
@@ -40,7 +41,7 @@ const BlogView = () => {
   const addLike = (event) => {
     event.preventDefault();
     const likedBlog = { ...selectedBlog, likes: selectedBlog.likes + 1 }
-    dispatch(likeBlog(likedBlog));  
+    dispatch(likeBlog(likedBlog));
   };
 
   const removeBlog = (event) => {

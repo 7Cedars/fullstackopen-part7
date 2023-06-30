@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from "../services/blogs";
+import { setNotification } from '../reducers/notificationReducer'
 
 const compareLikes = (a, b) => {
     return b.likes - (a.likes + 1);
@@ -48,15 +49,24 @@ export const initialiseBlogs = () => {
 
 export const createBlog = blogObject => {
   return async dispatch => {
-    const newBlog = await blogService.create(blogObject)
-    dispatch(addBlog(newBlog))
+    try {
+      const newBlog = await blogService.create(blogObject)
+      dispatch(addBlog(newBlog))
+      dispatch(setNotification({message: 'Blog successfully created!', className: "success"}))
+    } catch (error) {
+      dispatch(setNotification({message: `Error. Blog not created. Full error message: ${error}`, className: "error"}))
+    }
   }
 }
 
 export const likeBlog = likedBlog => {
   return async dispatch => {    
-    const updatedBlog = await blogService.update(likedBlog)
-    dispatch(updateBlog(updatedBlog));
+    try {
+      const updatedBlog = await blogService.update(likedBlog)
+      dispatch(updateBlog(updatedBlog));
+    } catch {
+      dispatch(setNotification({message: 'You can only like blogs when logged in', className: "error"}))
+    }
   }
 }
 

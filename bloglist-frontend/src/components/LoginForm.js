@@ -11,19 +11,11 @@ const LoginForm = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();    
-    try {
-      dispatch( loginUser(username, password) ) 
-      // blogService.setToken(user.token);    
-      dispatch(setNotification({message: `Successful login!`, className: "success"}));
-    } catch (exception) {
-      dispatch(setNotification({message: `Wrong username or password. The exception was: ${exception}`, className: "error"}));
-    }
-    console.log("user: ", user);
+    dispatch( loginUser(username, password) ) 
   };
 
   return (
-      <form onSubmit={handleLogin}>
-        
+      <form onSubmit={handleLogin}>        
         <div>
           username
           <input

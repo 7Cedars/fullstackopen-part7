@@ -2,16 +2,11 @@ import { createSlice } from '@reduxjs/toolkit'
 import userService from "../services/users";
 import loginService from "../services/login";
 import blogService from "../services/blogs";
-
-// need helper function here? 
-// const compareLikes = (a, b) => {
-//     return b.likes - (a.likes + 1);
-//   };
+import { setNotification } from '../reducers/notificationReducer'
 
 const usersAtStart = {
   loggedIn: null, 
-  all: null,
-  selected: null 
+  all: null
 }
 
 const usersSlice = createSlice({
@@ -23,9 +18,6 @@ const usersSlice = createSlice({
     },
     allUsers(state, action) { 
       state.all = action.payload
-    },
-    individualUser(state, action) {
-      state.selected = action.payload
     }
   },
 })
@@ -39,31 +31,25 @@ export default usersSlice.reducer
 
 export const loginUser = (username, password) => {
   return async dispatch => {
-    const user = await loginService.login({
-      username,
-      password,
-    });
-    blogService.setToken(user.token);
-    window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
-    dispatch(loggedInUser(user))
+    try {
+      const user = await loginService.login({
+        username,
+        password,
+      });
+      blogService.setToken(user.token);
+      window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
+      dispatch(loggedInUser(user))
+      dispatch(setNotification({message: 'Successful login', className: "success"}))
+    } catch {
+      dispatch(setNotification({message: 'Login failed. Username and/or password not found.', className: "error"}))
+    }
   }
 }
-
-// export const initialiseUser = (user) => {
-//     dispatch(loggedInUser(user))
-// }
 
 export const fetchAllUsers = () => {
   return async dispatch => {
     const all = await userService.getAll()
     console.log("fetchAllUsers:" , all)
     dispatch(allUsers(all))
-  }
-}
-
-export const fetchSingleUser = id => {
-  return async dispatch => {
-    const individualUser = await userService.get(id)
-    dispatch(individualUser(individualUser))
   }
 }
