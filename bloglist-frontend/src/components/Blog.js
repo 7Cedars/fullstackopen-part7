@@ -2,7 +2,7 @@ import { useState } from "react";
 import { likeBlog, removeBlogs } from '../reducers/blogsReducer'
 import { useDispatch } from 'react-redux'
 
-const Blog = ({ blog }) => { // updateLikes, removeBlogs, user
+const Blog = ({ blog }) => {
   const dispatch = useDispatch()
 
   const blogStyle = {
@@ -51,10 +51,10 @@ const Blog = ({ blog }) => { // updateLikes, removeBlogs, user
               Like{" "}
             </button>{" "}
           </div>
-          {/* <div className="blogUsername">
+          <div className="blogUsername">
             {" "}
             {`Created by: '${blog.user.name}' `}{" "}
-          </div> */}
+          </div> 
           {/* {user && user.username === blog.user.username ? ( */}
             <div className="blogRemoveButton">
               {" "}

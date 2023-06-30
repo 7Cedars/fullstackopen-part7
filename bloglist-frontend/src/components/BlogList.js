@@ -2,7 +2,6 @@ import { useSelector } from 'react-redux'
 import Blog from "./Blog";
 
 const BlogList = () => {
-
   const blogs = useSelector(state => {
     console.log("blogs at bloglist: ", state)
     
@@ -13,14 +12,16 @@ const BlogList = () => {
       return [];
     }
   })
-
+  
   return (
-  blogs.map((blog) => (
-    <Blog
-      key={blog.id}
-      blog={blog}
-    />
-  ))
+  <div>
+    {blogs.map((blog) => (
+      <Blog
+        key={blog.id}
+        blog={blog}
+      />
+    ))}
+  </div>
   )
 }
 

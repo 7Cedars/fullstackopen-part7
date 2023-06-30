@@ -14,6 +14,17 @@ usersRouter.get("/", async (request, response) => {
   response.json(users);
 });
 
+// NEW implementation -- still has to be tested. 
+usersRouter.get("/:id", async (request, response) => {
+  
+  const user = await User.findOne({ username });
+  if (!user) {
+    response.status(404).end();
+  }
+
+  response.json(user);
+});
+
 usersRouter.post("/", async (request, response) => {
   const { username, name, password } = request.body;
 

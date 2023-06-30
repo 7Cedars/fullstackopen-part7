@@ -1,25 +1,30 @@
-import { useContext } from "react";
-import UserContext from '../UserContext'
+import { useSelector } from 'react-redux'
 
 const UserInfo = () => {
   
-  const [user, userDispatch] = useContext(UserContext)
+  const user = useSelector(state => {
+    console.log("state in app: ", state.users)
+
+    return (
+      state.users
+    )
+  }) 
 
   const handleLogout = async (event) => {
-    userDispatch({type: 'DELETE'})
+    // userDispatch({type: 'DELETE'})
     event.preventDefault();
     window.localStorage.clear();
     window.location.reload(false);
   };
 
   return (
-    <h2>
+    <div>
       Logged in as: {user.name}
       <button type="submit" onClick={(handleLogout)} >
         {" "}
         logout{" "}
       </button>
-    </h2>
+    </div>
   )
 };
 

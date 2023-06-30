@@ -1,37 +1,28 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
+import { loginUser } from "../reducers/usersReducer";
 import blogService from "../services/blogs";
-import loginService from "../services/login";
 import { setNotification } from '../reducers/notificationReducer'
-import UserContext from '../UserContext'
 import { useDispatch } from 'react-redux'
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, userDispatch] = useContext(UserContext)
   const dispatch = useDispatch()
 
   const handleLogin = async (event) => {
-    event.preventDefault();  
-  
+    event.preventDefault();    
     try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
-      window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
+      dispatch( loginUser(username, password) ) 
       blogService.setToken(user.token);
-      userDispatch({type: 'CREATE', payload: user})
-      console.log("User: ", user);
     } catch (exception) {
-        dispatch(setNotification({message: 'Wrong username or password', className: "error"}));
+      dispatch(setNotification({message: `Wrong username or password. The exception was: ${exception}`, className: "error"}));
     }
     console.log("user: ", user);
   };
 
   return (
       <form onSubmit={handleLogin}>
-        <h2>Login</h2>
+        
         <div>
           username
           <input

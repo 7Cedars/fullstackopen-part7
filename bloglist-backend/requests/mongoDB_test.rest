@@ -32,11 +32,23 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb
 POST http://localhost:3003/api/users
 content-type: application/json
 
+# {
+#     "username": "7Cedars",
+#     "name": "Seven Cedars",
+#     "password": "qwerty"
+# }
+
 {
-    "username": "root2",
-    "name": "superuser2",
-    "password": "Te222222"
+    "username": "teijehidde",
+    "name": "Teije Hidde Donker",
+    "password": "qwerty"
 }
+
+# {
+#     "username": "root2",
+#     "name": "superuser2",
+#     "password": "Te222222"
+# }
 
 # {
 #     "username": "root",
