@@ -11,7 +11,8 @@ import BlogList from "./components/BlogList";
 import LoginForm from "./components/LoginForm";
 import UserInfo from "./components/UserInfo";
 import UsersOverview from "./components/UsersOverview";
-import UserOverview from "./components/UserOverview";
+import UserView from "./components/UserView";
+import BlogView from "./components/BlogView";
 
 import blogService from "./services/blogs";
 import { initialiseBlogs } from './reducers/blogsReducer'
@@ -19,18 +20,14 @@ import { loggedInUser, fetchAllUsers } from "./reducers/usersReducer";
 
 const App = () => {
   const dispatch = useDispatch()
-  // const match = useMatch('/users/:id')
-  // const selectedUser = match 
-  //   ? users.find(user => user.username === String(match.params.id))
-  //   : null  
 
   useEffect(() => {
-    dispatch(initialiseBlogs())
-    
+    dispatch(initialiseBlogs())    
   }, [dispatch]) 
 
   useEffect(() => {
     dispatch(fetchAllUsers())
+    dispatch(initialiseBlogs())  
     const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser");
     console.log("loggedUserJSON CALLED:", loggedUserJSON)
     if (loggedUserJSON) {
@@ -49,22 +46,6 @@ const App = () => {
         return null
       }
     })
-  
-  // const allUsers = useSelector(state => {
-  //     if (state.users.all) { 
-  //       const all = state.users.all
-  //       return all;
-  //     } else {
-  //       return [];
-  //     }
-  // })
-    
-  // const match = useMatch('/anecdotes/:id')
-  // const selectedUser = match 
-  //   ? allUsers.find(user => user.id === String(match.params.id))
-  //   : null  
-    
-  //   console.log("selectedUser: ", selectedUser)
 
   return (
     <div>
@@ -80,7 +61,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<BlogList /> } />
           <Route path="/users" element={<UsersOverview /> } />
-          <Route path="/users/:id" element={<UserOverview />} />
+          <Route path="/users/:id" element={<UserView />} />
+          
+          <Route path="/blogs" element={<BlogList />} />
+          <Route path="/blogs/:id" element={<BlogView />} />
         </Routes>     
     
       

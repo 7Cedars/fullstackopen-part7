@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { likeBlog, removeBlogs } from '../reducers/blogsReducer'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ blog }) => {
-  const dispatch = useDispatch()
   
-  const user = useSelector(state => {
-    if (state.users.loggedIn) { 
-      const currentUser = state.users.loggedIn
-      console.log("loggedInUser at Blog: ", currentUser)
-      return currentUser;
-    } else {
-      return null
-    }
-  })
+  console.log("BLOG: ", blog)
+  // const user = useSelector(state => {
+  //   if (state.users.loggedIn) { 
+  //     const currentUser = state.users.loggedIn
+  //     // console.log("loggedInUser at Blog: ", currentUser)
+  //     return currentUser;
+  //   } else {
+  //     return null
+  //   }
+  // })
 
   const blogStyle = {
     paddingTop: 10,
@@ -23,33 +24,13 @@ const Blog = ({ blog }) => {
     marginBottom: 5,
   };
 
-  const [details, setDetails] = useState(false);
-
-  const toggleDetails = () => {
-    setDetails(!details);
-    console.log(details)
-  };
-
-  const addLike = (event) => {
-    event.preventDefault();
-    const likedBlog = { ...blog, likes: blog.likes + 1 }
-    dispatch(likeBlog(likedBlog));  
-  };
-
-  const removeBlog = (event) => {
-    event.preventDefault();
-      if (window.confirm(`Do you really want to delete ${blog.title}?`)) {
-        dispatch(removeBlogs(blog.id)) 
-      }   
-  };
-
   return (
     <div style={blogStyle}>
-      <div className="blog">
-        {`'${blog.title}' by '${blog.author}'.`}
-        <button onClick={toggleDetails}> {details ? "hide" : "view"} </button>
-      </div>
-
+      {blog.name}
+      <Link to={`/blogs/${blog.id}`}>{blog.name}</Link>
+    </div> 
+  )
+{/* 
       {details ? (
         <div>
           <div className="blogUrls"> {`Url: '${blog.url}' `} </div>
@@ -73,8 +54,8 @@ const Blog = ({ blog }) => {
           ) : null} 
         </div>
       ) : null}
-    </div>
-  );
+    </div> */}
+
 };
 
 export default Blog;

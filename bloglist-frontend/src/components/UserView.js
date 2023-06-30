@@ -1,13 +1,13 @@
 import { useMatch } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
-const UserOverview = () => {
+const UserView = () => {
 
   const allUsers = useSelector(state => {
 
     if (state.users.all) { 
       const all = state.users.all
-      console.log("FULL Redux state at UsersOverview: ", state)
+      console.log("FULL Redux state at USERVIEW: ", state)
       return all;
     } else {
       return null
@@ -40,4 +40,4 @@ const UserOverview = () => {
   }
 }
 
-export default UserOverview
+export default UserView
