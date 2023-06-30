@@ -15,14 +15,14 @@ import UsersOverview from "./components/UsersOverview";
 
 import blogService from "./services/blogs";
 import { initialiseBlogs } from './reducers/blogsReducer'
-import { loggedInUser } from "./reducers/usersReducer";
+import { loggedInUser, fetchAllUsers } from "./reducers/usersReducer";
 
 const App = () => {
   const blogFormRef = useRef();
   const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch(initialiseBlogs())  
+    
   }, [dispatch]) 
 
   useEffect(() => {
@@ -34,12 +34,12 @@ const App = () => {
       blogService.setToken(user.token);
       dispatch(loggedInUser(user)) 
     }
+    dispatch(fetchAllUsers())
   }, []);
 
   const user = useSelector(state => {
       if (state.users) { 
-        const currentUser = state.users
-        console.log("currentUser: ", currentUser)
+        const currentUser = state.users.loggedIn
         return currentUser;
       } else {
         return null

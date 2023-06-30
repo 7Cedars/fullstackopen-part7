@@ -8,20 +8,24 @@ import blogService from "../services/blogs";
 //     return b.likes - (a.likes + 1);
 //   };
 
+const usersAtStart = {
+  loggedIn: null, 
+  all: [],
+  selected: null 
+}
+
 const usersSlice = createSlice({
   name: 'users', 
-  initialState: null,
+  initialState: usersAtStart,
   reducers: {
     loggedInUser(state, action) { 
-      const loggedInUser = action.payload
-      return loggedInUser
+      state.loggedIn = action.payload
     },
     allUsers(state, action) { 
-      const allUsers = action.payload
-      return allUsers
+      state.all = action.payload
     },
     individualUser(state, action) {
-      state.push(action.payload)
+      state.selected = action.payload
     }
   },
 })
@@ -45,14 +49,14 @@ export const loginUser = (username, password) => {
   }
 }
 
-export const initialiseUser = (user) => {
-    dispatch(loggedInUser(user))
-}
+// export const initialiseUser = (user) => {
+//     dispatch(loggedInUser(user))
+// }
 
 export const fetchAllUsers = () => {
   return async dispatch => {
-    const allUsers = await userService.getAll()
-    dispatch(allUsers(allUsers))
+    const all = await userService.getAll()
+    dispatch(allUsers(all))
   }
 }
 

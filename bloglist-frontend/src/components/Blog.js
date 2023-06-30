@@ -6,9 +6,9 @@ const Blog = ({ blog }) => {
   const dispatch = useDispatch()
   
   const user = useSelector(state => {
-    if (state.users) { 
-      const currentUser = state.users
-      console.log("currentUser: ", currentUser)
+    if (state.users.loggedIn) { 
+      const currentUser = state.users.loggedIn
+      console.log("loggedInUser at Blog: ", currentUser)
       return currentUser;
     } else {
       return null
