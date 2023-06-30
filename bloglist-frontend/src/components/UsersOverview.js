@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 
 const UsersOverview = () => {
 
-  
+
   
   const blogs = useSelector(state => {
 
@@ -26,11 +26,16 @@ const UsersOverview = () => {
   return (
     <div>
       <h2>Users</h2>
-      {uniqueNames.map((name) => (
-        <div style={{textAlign: "left"}} >
-            {` ${name}: ${countValue[name]}`}
-        </div> 
-      ))}
+      <table>
+            <td> </td>
+            <td> <b> # Blogs </b> </td>
+        {uniqueNames.map((name) => (
+          <tr> 
+            <td> {name} </td>
+            <td> {countValue[name]}</td>
+          </tr> 
+        ))}
+      </table>
     </div>
   )
 };

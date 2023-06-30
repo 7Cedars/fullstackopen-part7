@@ -5,10 +5,10 @@ import {
   Routes, Route, Link
 } from 'react-router-dom'
 
-import Togglable from "./components/Togglable";
+
 import Notification from "./components/Notification";
 import BlogList from "./components/BlogList";
-import BlogForm from "./components/BlogForm";
+
 import LoginForm from "./components/LoginForm";
 import UserInfo from "./components/UserInfo";
 import UsersOverview from "./components/UsersOverview";
@@ -58,20 +58,12 @@ const App = () => {
           <Link style={padding} to="/users">users</Link>
         </div> */}
         <Routes>
+          <Route path="/" element={<BlogList /> } />
           <Route path="/users" element={<UsersOverview /> } />
+
           {/* <Route path="/users/:id" element={<UserOverview user={user} />} /> */}
-        </Routes>
-
-
-      {user && (
-        <div>
-          <Togglable buttonLabel="add new blog" ref={blogFormRef}>
-            <BlogForm user={user} />
-          </Togglable>
-        </div>
-      )}
-      
-       <BlogList /> 
+        </Routes>     
+    
       
       </Router>
     </div>
