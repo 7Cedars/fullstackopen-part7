@@ -1,18 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  BrowserRouter as Router,
-  Routes, Route, Link, useMatch
-} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import Notification from "./components/Notification";
 import BlogList from "./components/BlogList";
-
-import LoginForm from "./components/LoginForm";
-import UserInfo from "./components/UserInfo";
 import UsersOverview from "./components/UsersOverview";
 import UserView from "./components/UserView";
 import BlogView from "./components/BlogView";
+import Menu from "./components/Menu";
 
 import blogService from "./services/blogs";
 import { initialiseBlogs } from './reducers/blogsReducer'
@@ -38,36 +33,19 @@ const App = () => {
     }
   }, []);
 
-  const user = useSelector(state => {
-      if (state.users) { 
-        const currentUser = state.users.loggedIn
-        return currentUser;
-      } else {
-        return null
-      }
-    })
-
   return (
     <div>
       <h2>Blogs</h2>
-      <Notification />
-      {user ? <UserInfo/> : <LoginForm/>}
+      <Notification />      
       <Router>
-        {/* <div>
-          <Link style={padding} to="/">home</Link>
-          <Link style={padding} to="/notes">notes</Link>
-          <Link style={padding} to="/users">users</Link>
-        </div> */}
+      <Menu />
         <Routes>
           <Route path="/" element={<BlogList /> } />
           <Route path="/users" element={<UsersOverview /> } />
           <Route path="/users/:id" element={<UserView />} />
-          
           <Route path="/blogs" element={<BlogList />} />
           <Route path="/blogs/:id" element={<BlogView />} />
-        </Routes>     
-    
-      
+        </Routes>           
       </Router>
     </div>
   );

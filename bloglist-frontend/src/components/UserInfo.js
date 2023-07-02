@@ -1,19 +1,9 @@
 import { useSelector } from 'react-redux'
 
 const UserInfo = () => {
-
-  // dispatch(fetchAllUsers())
   
-  const user = useSelector(state => {
-    console.log("FULL Redux state : ", state)
-
-    return (
-      state.users.loggedIn
-    )
-  }) 
-
+  const user = useSelector(state => state.users.loggedIn)  
   const handleLogout = async (event) => {
-    // userDispatch({type: 'DELETE'})
     event.preventDefault();
     window.localStorage.clear();
     window.location.reload(false);
@@ -22,9 +12,8 @@ const UserInfo = () => {
   return (
     <div>
       Logged in as: {user.name}
-      <button type="submit" onClick={(handleLogout)} >
-        {" "}
-        logout{" "}
+      <button type="submit" onClick={(handleLogout)} > 
+        logout 
       </button>
     </div>
   )

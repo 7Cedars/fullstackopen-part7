@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createBlog } from '../reducers/blogsReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-const BlogForm = ({ user }) => {
+const BlogForm = ( ) => {
   const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
-  const dispatch = useDispatch()
+  const user = useSelector(state => state.users.loggedIn ) 
+  const dispatch = useDispatch() 
 
   const addBlog = (event) => {
     event.preventDefault();
@@ -35,11 +35,6 @@ const BlogForm = ({ user }) => {
   useEffect(() => {
     console.log("newBlog: ", newBlog);
   }, [newBlog]);
-
-  BlogForm.propTypes = {
-    createBlog: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-  };
 
   return (
     <div>
