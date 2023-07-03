@@ -7,7 +7,7 @@ const UserView = () => {
 
     if (state.users.all) { 
       const all = state.users.all
-      console.log("FULL Redux state at USERVIEW: ", state)
+      // console.log("FULL Redux state at USERVIEW: ", state)
       return all;
     } else {
       return null

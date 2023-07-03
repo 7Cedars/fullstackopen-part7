@@ -8,7 +8,7 @@ const compareLikes = (a, b) => {
 
 const blogsSlice = createSlice({
   name: 'blogs', 
-  initialState: [],
+  initialState: null,
   reducers: {
     setBlogs(state, action) { 
       const blogs = action.payload
