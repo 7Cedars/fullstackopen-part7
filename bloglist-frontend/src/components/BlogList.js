@@ -34,22 +34,24 @@ const BlogList = () => {
 
   
   return (
-  <div>
+  <div className='grid grid-cols-1 gap-2 '>
     {user && (
-        <div>
+        <div className='group flex flex-col h-full '>
           <Togglable buttonLabel="add new blog" ref={blogFormRef}>
             <BlogForm user={user} />
           </Togglable>
         </div>
-      )}
-
-    {blogs.map((blog) => (
-        <div style={blogStyle} key={blog.id}> 
-         {<Link to={`/blogs/${blog.id}`}>{blog.title}</Link>} 
-        </div> 
+      )} 
+    {/* <div className='grid grid-cols-1 gap-2'> */}
+      {blogs.map((blog) => (
+          <div className ="group flex flex-col h-full border border-gray-200 hover:border-blue-600 transition-all duration-300 rounded-md p-2" key={blog.id}> 
+          {<Link to={`/blogs/${blog.id}`}>{blog.title}</Link>} 
+          </div> 
       ))}
+    {/* </div> */}
   </div>
   )
+  
 }
 
 export default BlogList

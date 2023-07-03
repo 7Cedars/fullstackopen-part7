@@ -38,57 +38,89 @@ const BlogForm = ( ) => {
 
   return (
     <div>
-      <h2>New Blog Entry</h2>
+      <div className="mb-4">
+        <h2 className="text-xl font-bold text-gray-800">New Blog Entry</h2>
+        <p class="text-sm text-gray-600">
+          Add a new Blog post here.
+        </p>
+      </div>
+      
+      <form onSubmit={addBlog} >    
+            
+          <div className="grid grid-cols-12 gap-4">
+              
+              <div className="col-span-2">
+                  <label for="blogTitle" className="inline-block text-sm text-gray-800 mt-2 py-3">
+                    Title: 
+                  </label>
+              </div>    
+              <div className="col-span-10 text-sm text-gray-800 mt-2">
+                <input
+                  className="px-3 w-full h-full shadow-sm border text-sm border-gray-200 hover:border-blue-600 focus:outline-none focus:border-blue-600 focus:ring-1 transition-all duration-300 rounded-md p-1"
+                  type="text"
+                  value={newBlog.title}
+                  placeholder="Title of blog"
+                  id="blogTitle"
+                  onChange={(event) =>
+                    setNewBlog({
+                      ...newBlog,
+                      title: event.target.value,
+                    })
+                  }
+                />
+              </div>
+        
+            <div className="col-span-2">
+              <label for="blogAuthor" className="inline-block text-sm text-gray-800 mt-2 py-2">
+                Author: 
+              </label>
+            </div>
+            <div className="col-span-10">         
+              <input
+                className="px-3 w-full h-full shadow-sm border text-sm border-gray-200 hover:border-blue-600 focus:outline-none focus:border-blue-600 focus:ring-1 transition-all duration-300 rounded-md p-1"
+                type="text"
+                value={newBlog.author}
+                placeholder="Author of blog"
+                id="blogAuthor"
+                onChange={(event) =>
+                  setNewBlog({
+                    ...newBlog,
+                    author: event.target.value,
+                  })
+                }
+              />
+            </div>
 
-      <form onSubmit={addBlog}>
-        <div>
-          title:
-          <input
-            type="text"
-            value={newBlog.title}
-            placeholder="Title of blog"
-            id="blogTitle"
-            onChange={(event) =>
-              setNewBlog({
-                ...newBlog,
-                title: event.target.value,
-              })
-            }
-          />
+            <div className="col-span-2">
+              <label for="blogUrl" className="inline-block text-sm text-gray-800 mt-2 py-2">
+                Url: 
+              </label>
+            </div>
+            <div className="col-span-10">         
+              <input
+                className="px-3 w-full h-full shadow-sm border text-sm border-gray-200 hover:border-blue-600 focus:outline-none focus:border-blue-600 focus:ring-1 transition-all duration-300 rounded-md p-1"
+                type="text"
+                value={newBlog.url}
+                placeholder="Url of blog"
+                id="blogUrl"
+                onChange={(event) =>
+                  setNewBlog({
+                    ...newBlog,
+                    url: event.target.value,
+                  })
+                }
+              />
+            </div>
+            </div>
+            <button 
+            className = "w-full py-2 mt-7 px-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
+              type="submit" >   
+              Add Blog
+            </button>
+            </form>
+
+           
         </div>
-        <div>
-          author:
-          <input
-            type="text"
-            value={newBlog.author}
-            placeholder="Author of blog"
-            id="blogAuthor"
-            onChange={(event) =>
-              setNewBlog({
-                ...newBlog,
-                author: event.target.value,
-              })
-            }
-          />
-        </div>
-        <div>
-          url:
-          <input
-            type="text"
-            value={newBlog.url}
-            placeholder="Url of blog"
-            id="blogUrl"
-            onChange={(event) =>
-              setNewBlog({
-                ...newBlog,
-                url: event.target.value,
-              })
-            }
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
   );
 };
 

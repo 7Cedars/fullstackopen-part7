@@ -34,11 +34,14 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Blogs</h2>
+      <div className="max-w-[85rem] px-4 py-5 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       <Notification />      
       <Router>
       <Menu />
+      <div class="max-w-2xl mx-auto text-center p-4 mb-6 lg:mb-8">
+        <h2 className="text-2xl font-bold md:text-4xl md:leading-tight">Blogs App</h2>
+        <p class="mt-1 text-gray-600 dark:text-gray-400">An example app made during Fullstack Open.</p>
+      </div>
         <Routes>
           <Route path="/" element={<BlogList /> } />
           <Route path="/users" element={<UsersOverview /> } />

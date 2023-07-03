@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import store from './reducers/store'
 import { Provider } from 'react-redux'
+<script src="./node_modules/preline/dist/preline.js"></script>
 
 console.log("store: ", store.getState())
 console.log("store: ", store) 
