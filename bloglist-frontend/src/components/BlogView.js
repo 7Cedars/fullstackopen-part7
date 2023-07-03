@@ -13,6 +13,21 @@ const BlogView = () => {
       return all;
     })
 
+    const user = useSelector(state => {
+      if (state.users) { 
+        return (state.users.loggedIn)
+      } else {
+      }
+    })
+
+  const match = useMatch('/blogs/:id')
+  
+  if (allBlogs) {
+
+    const selectedBlog = match 
+    ? allBlogs.find(blog => blog.id === String(match.params.id))
+    : null
+
     const addLike = (event) => {
       event.preventDefault();
       const likedBlog = { ...selectedBlog, likes: selectedBlog.likes + 1 }
@@ -26,27 +41,12 @@ const BlogView = () => {
         }
       navigate('/')
     };
-  
+
     const addComment = (event) => {
       event.preventDefault();
       dispatch(addBlogComment( {comment: newComment, id: selectedBlog.id} ));
       setNewComment("");
       };
-
-    const user = useSelector(state => {
-      if (state.users) { 
-        return (state.users.loggedIn)
-      } else {
-      }
-    })
-
-  const match = useMatch('/blogs/:id')
-  
-  if (allBlogs) {
-
-    let selectedBlog = match 
-    ? allBlogs.find(blog => blog.id === String(match.params.id))
-    : null
 
     return (
       
