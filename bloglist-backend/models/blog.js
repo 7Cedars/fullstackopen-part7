@@ -14,7 +14,10 @@ const blogSchema = new mongoose.Schema({
     ref: "User",
   },
   url: {
-    type: String, // (was string) should be URL - but have to clean database before I can do this..
+    type: String, 
+  },
+  comments: {
+    type: Array,
   },
   likes: Number,
 });

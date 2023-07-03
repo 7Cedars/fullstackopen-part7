@@ -79,6 +79,7 @@ blogsRouter.put(
     update.author ? (updatedBlog.author = update.author) : null;
     update.url ? (updatedBlog.url = update.url) : null;
     update.likes ? (updatedBlog.likes = update.likes) : null;
+    update.blogs ? (updatedBlog.blogs = update.blogs) : null;
 
     savedBlog = await Blog.findByIdAndUpdate(request.params.id, updatedBlog, {
       new: true,

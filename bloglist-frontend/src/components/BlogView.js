@@ -1,7 +1,6 @@
 import { likeBlog, removeBlogs } from '../reducers/blogsReducer'
 import { useSelector, useDispatch } from 'react-redux'
-import { useMatch, useNavigate } from 'react-router-dom'
-import { setNotification } from '../reducers/notificationReducer'
+import { useMatch, useNavigate, Link, Route } from 'react-router-dom'
 
 const BlogView = () => {
   const dispatch = useDispatch()
@@ -57,9 +56,9 @@ const BlogView = () => {
        <h2>
         {`${selectedBlog.title} by ${selectedBlog.author}`}
       </h2>
-      <div className="blogUrls"> 
-        <a href={selectedBlog.url}>{selectedBlog.url}</a> 
-      </div> 
+       {/* NB! THIS IS A BUG: it add the BASE url to this URL. No clue why. It shouldn't  */}
+      <a href={`${selectedBlog.url}`} target = "_blank">{selectedBlog.url} </a>
+      {/* END BUG  */}
       <div className="blogLikes">
             {" "}
             {`${selectedBlog.likes} likes `}{" "}
@@ -78,9 +77,16 @@ const BlogView = () => {
               <button onClick={removeBlog}> Remove </button>{" "}
             </div>
           ) : null} 
+      <ul>
+      {selectedBlog.comments ?
+        selectedBlog.comments.map((comment, id) => (
+          <li key={id}>{comment} </li> 
+          ))
+          : null 
+      }
+      </ul>
     </div>
-  );
+  )   
 };
-
 
 export default BlogView
