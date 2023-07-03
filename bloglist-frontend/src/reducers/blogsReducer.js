@@ -59,6 +59,21 @@ export const createBlog = blogObject => {
   }
 }
 
+export const addBlogComment = ( {comment, id} ) => {
+  console.log("At addBlogComment: Comment: ", comment, "id: ", id ) 
+
+  return async dispatch => {    
+    try {
+      const updatedBlog = await blogService.comment(comment, id)
+      dispatch(updateBlog(updatedBlog));
+      console.log("At addBlogComment updatedBlog: ", updatedBlog) 
+      dispatch(setNotification({message: 'Succes! Blog comment added', className: "success"}))
+    } catch {
+      dispatch(setNotification({message: 'Something went wrong adding comment. Full error:', className: "error"}))
+    }
+  }
+}
+
 export const likeBlog = likedBlog => {
   return async dispatch => {    
     try {

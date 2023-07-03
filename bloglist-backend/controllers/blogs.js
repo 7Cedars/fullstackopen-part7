@@ -61,33 +61,54 @@ blogsRouter.put(
   userExtractor,
   async (request, response) => {
     const update = request.body;
-    const originalBlog = await Blog.findById(request.params.id).populate(
+    const originalBlog = await Blog.findById(request.params.id);
+
+    if (!originalBlog) {
+      response.status(404).end();
+    }
+
+    let updatedBlog = originalBlog;  
+
+    update.title ? (updatedBlog.title = update.title) : null;
+    update.author ? (updatedBlog.author = update.author) : null;
+    update.url ? (updatedBlog.url = update.url) : null;
+    update.likes ? (updatedBlog.likes = update.likes) : null;
+
+    savedBlog = await Blog.findByIdAndUpdate(request.params.id, updatedBlog, {
+      new: true,
+    }).populate(
       "user",
       {
         username: 1,
         name: 1,
       }
     );
+    response.json(savedBlog); 
+  }
+);
 
-    let updatedBlog = originalBlog;
+blogsRouter.put(
+  "/:id/comments",
+  async (request, response) => {
+    const comment = request.body;
+    let originalBlog = await Blog.findById(request.params.id);
 
     if (!originalBlog) {
       response.status(404).end();
     }
 
-    update.title ? (updatedBlog.title = update.title) : null;
-    update.author ? (updatedBlog.author = update.author) : null;
-    update.url ? (updatedBlog.url = update.url) : null;
-    update.likes ? (updatedBlog.likes = update.likes) : null;
-    update.blogs ? (updatedBlog.blogs = update.blogs) : null;
+    originalBlog.comments.push(comment.comment)
 
-    savedBlog = await Blog.findByIdAndUpdate(request.params.id, updatedBlog, {
+    savedBlog = await Blog.findByIdAndUpdate(request.params.id, originalBlog, {
       new: true,
-    });
-
-    // Blog.findById(request.params.id)
-    // response.status(204).json(originalBlog)
-    response.json(originalBlog);
+    }).populate(
+      "user",
+      {
+        username: 1,
+        name: 1,
+      }
+    );
+    response.json(savedBlog);
   }
 );
 

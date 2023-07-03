@@ -30,8 +30,8 @@ const update = async (updatedBlog) => {
   return response.data;
 };
 
-const addComment = async (updatedBlog) => {
-  const response = await axios.put(`${baseUrl}/${updatedBlog.id}`, updatedBlog);
+const comment = async (comment, id) => {
+  const response = await axios.put(`${baseUrl}/${id}/comments`, {"comment": comment});
   return response.data;
 };
 
@@ -44,4 +44,4 @@ const deleteItem = async (id) => {
   return response.data;
 };
 
-export default { getAll, create, update, setToken, addComment, deleteItem };
+export default { getAll, create, update, comment, setToken, deleteItem };
