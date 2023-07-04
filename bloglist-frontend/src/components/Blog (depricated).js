@@ -5,15 +5,6 @@ import { Link } from "react-router-dom";
 
 const Blog = ({ blog }) => {
   console.log("BLOG: ", blog);
-  // const user = useSelector(state => {
-  //   if (state.users.loggedIn) {
-  //     const currentUser = state.users.loggedIn
-  //     // console.log("loggedInUser at Blog: ", currentUser)
-  //     return currentUser;
-  //   } else {
-  //     return null
-  //   }
-  // })
 
   const blogStyle = {
     paddingTop: 10,
@@ -29,33 +20,6 @@ const Blog = ({ blog }) => {
       <Link to={`/blogs/${blog.id}`}>{blog.name}</Link>
     </div>
   );
-  {
-    /* 
-      {details ? (
-        <div>
-          <div className="blogUrls"> {`Url: '${blog.url}' `} </div>
-          <div className="blogLikes">
-            {" "}
-            {`Blog likes: '${blog.likes}' `}{" "}
-            <button onClick={addLike} id="like-input">
-              {" "}
-              Like{" "}
-            </button>{" "}
-          </div>
-          <div className="blogUsername">
-            {" "}
-            {`Created by: '${blog.user.name}' `}{" "}
-          </div> 
-          {user && user.username === blog.user.username ? (
-            <div className="blogRemoveButton">
-              {" "}
-              <button onClick={removeBlog}> Remove </button>{" "}
-            </div>
-          ) : null} 
-        </div>
-      ) : null}
-    </div> */
-  }
 };
 
 export default Blog;

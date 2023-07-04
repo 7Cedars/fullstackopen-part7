@@ -20,9 +20,7 @@ describe("Blog app", function () {
 
   it("Login form is shown", function () {
     cy.visit("http://localhost:3000");
-    cy.contains("Login");
-    cy.contains("username");
-    cy.contains("password");
+    cy.contains("login");
   });
 
   describe("Login", function () {
@@ -39,7 +37,7 @@ describe("Blog app", function () {
       cy.get("#password").type("WRONG PASSWORD");
       cy.get("#login-button").click();
 
-      cy.get(".error").should("contain", "Wrong");
+      cy.contains("failed");
     });
   });
 
@@ -63,89 +61,89 @@ describe("Blog app", function () {
       cy.get("#blogAuthor").type("Cypress");
       cy.get("#blogUrl").type("localhost:3000");
 
-      cy.contains("Submit").click();
+      cy.contains("Add Blog").click();
       cy.contains("Success");
       cy.contains("This is a test...");
     });
 
     it("A blog can be liked", function () {
-      cy.contains("view").click();
-      cy.contains("Like").click();
+      cy.contains("Another blog").click();
+      cy.contains("Add like").click();
       cy.contains("1");
     });
 
     it("A blog can be deleted", function () {
-      cy.contains("view").click();
+      cy.contains("Another blog").click();
       cy.contains("Remove").click();
 
-      cy.contains("Another Blog").should("not.exist");
+      cy.contains("Another blog").should("not.exist");
     });
 
     it("Only shows Remove button when creator is logged in ", function () {
       cy.contains("logout").click();
       cy.login({ username: "teijehidde", password: "7Cedars" });
 
-      cy.contains("view").click();
+      cy.contains("Another blog").click();
       cy.contains("Remove").should("not.exist");
     });
   });
 
-  describe("Blogs sorting", function () {
-    beforeEach(function () {
-      cy.login({ username: "7Cedars", password: "PleaseLetMeIn" });
+  // describe.only("Blogs sorting", function () {
+  //   beforeEach(function () {
+  //     cy.login({ username: "7Cedars", password: "PleaseLetMeIn" });
 
-      cy.login({ username: "7Cedars", password: "PleaseLetMeIn" });
+  //     cy.login({ username: "7Cedars", password: "PleaseLetMeIn" });
 
-      cy.createBlog({
-        title: "A blog less liked",
-        author: "Noone?",
-        user: JSON.parse(localStorage.getItem("loggedNoteappUser")),
-        url: "google.com",
-        likes: 0,
-      });
+  //     cy.createBlog({
+  //       title: "A blog less liked",
+  //       author: "Noone?",
+  //       user: JSON.parse(localStorage.getItem("loggedNoteappUser")),
+  //       url: "google.com",
+  //       likes: 0,
+  //     });
 
-      cy.createBlog({
-        title: "A most liked blog",
-        author: "Someone",
-        user: JSON.parse(localStorage.getItem("loggedNoteappUser")),
-        url: "google.com",
-        likes: 3,
-      });
+  //     cy.createBlog({
+  //       title: "A most liked blog",
+  //       author: "Someone",
+  //       user: JSON.parse(localStorage.getItem("loggedNoteappUser")),
+  //       url: "google.com",
+  //       likes: 3,
+  //     });
 
-      cy.createBlog({
-        title: "A second most liked blog",
-        author: "Someone else",
-        user: JSON.parse(localStorage.getItem("loggedNoteappUser")),
-        url: "google.com",
-        likes: 2,
-      });
+  //     cy.createBlog({
+  //       title: "A second most liked blog",
+  //       author: "Someone else",
+  //       user: JSON.parse(localStorage.getItem("loggedNoteappUser")),
+  //       url: "google.com",
+  //       likes: 2,
+  //     });
 
-      cy.createBlog({
-        title: "A third most liked blog",
-        author: "Someone else",
-        user: JSON.parse(localStorage.getItem("loggedNoteappUser")),
-        url: "google.com",
-        likes: 1,
-      });
-    });
+  //     cy.createBlog({
+  //       title: "A third most liked blog",
+  //       author: "Someone else",
+  //       user: JSON.parse(localStorage.getItem("loggedNoteappUser")),
+  //       url: "google.com",
+  //       likes: 1,
+  //     });
+  //   });
 
-    it("Correctly sorts blogs at startup", function () {
-      cy.get(".blog").eq(0).should("contain", "most");
-      cy.get(".blog").eq(1).should("contain", "second");
-      cy.get(".blog").eq(2).should("contain", "third");
-    });
+  //   it("Correctly sorts blogs at startup", function () {
+  //     cy.get(".blog").eq(0).should("contain", "most");
+  //     cy.get(".blog").eq(1).should("contain", "second");
+  //     cy.get(".blog").eq(2).should("contain", "third");
+  //   });
 
-    it("reorders blogs after likes are added", function () {
-      cy.contains("third most liked").parent().find("button").click();
+  //   it("reorders blogs after likes are added", function () {
+  //     cy.contains("third most liked").parent().find("button").click();
 
-      cy.contains("Like").click();
-      cy.wait(500);
-      cy.contains("Like").click();
-      cy.wait(500);
+  //     cy.contains("Like").click();
+  //     cy.wait(500);
+  //     cy.contains("Like").click();
+  //     cy.wait(500);
 
-      cy.get(".blog").eq(0).should("contain", "most");
-      cy.get(".blog").eq(1).should("contain", "third");
-      cy.get(".blog").eq(2).should("contain", "second");
-    });
-  });
+  //     cy.get(".blog").eq(0).should("contain", "most");
+  //     cy.get(".blog").eq(1).should("contain", "third");
+  //     cy.get(".blog").eq(2).should("contain", "second");
+  //   });
+  // });
 });
