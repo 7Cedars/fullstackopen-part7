@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { likeBlog, removeBlogs } from '../reducers/blogsReducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { likeBlog, removeBlogs } from "../reducers/blogsReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Blog = ({ blog }) => {
-  
-  console.log("BLOG: ", blog)
+  console.log("BLOG: ", blog);
   // const user = useSelector(state => {
-  //   if (state.users.loggedIn) { 
+  //   if (state.users.loggedIn) {
   //     const currentUser = state.users.loggedIn
   //     // console.log("loggedInUser at Blog: ", currentUser)
   //     return currentUser;
@@ -28,9 +27,10 @@ const Blog = ({ blog }) => {
     <div style={blogStyle}>
       {blog.name}
       <Link to={`/blogs/${blog.id}`}>{blog.name}</Link>
-    </div> 
-  )
-{/* 
+    </div>
+  );
+  {
+    /* 
       {details ? (
         <div>
           <div className="blogUrls"> {`Url: '${blog.url}' `} </div>
@@ -54,8 +54,8 @@ const Blog = ({ blog }) => {
           ) : null} 
         </div>
       ) : null}
-    </div> */}
-
+    </div> */
+  }
 };
 
 export default Blog;

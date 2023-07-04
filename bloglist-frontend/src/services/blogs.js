@@ -26,12 +26,18 @@ const update = async (updatedBlog) => {
     headers: { Authorization: token },
   };
 
-  const response = await axios.put(`${baseUrl}/${updatedBlog.id}`, updatedBlog, config);
+  const response = await axios.put(
+    `${baseUrl}/${updatedBlog.id}`,
+    updatedBlog,
+    config
+  );
   return response.data;
 };
 
 const comment = async (comment, id) => {
-  const response = await axios.put(`${baseUrl}/${id}/comments`, {"comment": comment});
+  const response = await axios.put(`${baseUrl}/${id}/comments`, {
+    comment: comment,
+  });
   return response.data;
 };
 
