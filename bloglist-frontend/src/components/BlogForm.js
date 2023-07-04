@@ -43,10 +43,8 @@ const BlogForm = ( ) => {
         <p class="text-sm text-gray-600">
           Add a new Blog post here.
         </p>
-      </div>
-      
-      <form onSubmit={addBlog} >    
-            
+      </div>      
+      <form onSubmit={addBlog} >              
           <div className="grid grid-cols-12 gap-4">
               
               <div className="col-span-2">
@@ -113,13 +111,11 @@ const BlogForm = ( ) => {
             </div>
             </div>
             <button 
-            className = "w-full py-2 mt-7 px-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all text-sm"
+            className = "w-full py-2 mt-7 px-2 rounded-md border border-transparent font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-all text-sm"
               type="submit" >   
               Add Blog
             </button>
             </form>
-
-           
         </div>
   );
 };

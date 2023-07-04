@@ -7,7 +7,7 @@ import BlogList from "./components/BlogList";
 import UsersOverview from "./components/UsersOverview";
 import UserView from "./components/UserView";
 import BlogView from "./components/BlogView";
-import Menu from "./components/Menu";
+import Header from "./components/Header";
 
 import blogService from "./services/blogs";
 import { initialiseBlogs } from './reducers/blogsReducer'
@@ -35,9 +35,9 @@ const App = () => {
 
   return (
       <div className="max-w-[85rem] px-4 py-5 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-      <Notification />      
       <Router>
-      <Menu />
+      <Notification />
+      <Header />
       <div class="max-w-2xl mx-auto text-center p-4 mb-6 lg:mb-8">
         <h2 className="text-2xl font-bold md:text-4xl md:leading-tight">Blogs App</h2>
         <p class="mt-1 text-gray-600 dark:text-gray-400">An example app made during Fullstack Open.</p>

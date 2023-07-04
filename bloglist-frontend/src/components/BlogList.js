@@ -7,14 +7,6 @@ import { Link } from 'react-router-dom'
 const BlogList = () => {
   const blogFormRef = useRef();
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-
   const blogs = useSelector(state => {
     console.log("blogs at bloglist: ", state.blogs)
     
@@ -28,7 +20,6 @@ const BlogList = () => {
 
   const user = useSelector(state => {
     console.log("logged in user in Redux state : ", state.users.loggedIn)
-
     return (state.users.loggedIn)
   })
 
@@ -42,13 +33,11 @@ const BlogList = () => {
           </Togglable>
         </div>
       )} 
-    {/* <div className='grid grid-cols-1 gap-2'> */}
       {blogs.map((blog) => (
           <div className ="group flex flex-col h-full border border-gray-200 hover:border-blue-600 transition-all duration-300 rounded-md p-2" key={blog.id}> 
           {<Link to={`/blogs/${blog.id}`}>{blog.title}</Link>} 
           </div> 
       ))}
-    {/* </div> */}
   </div>
   )
   
